@@ -1,7 +1,6 @@
 import discord
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
 import asyncio
+import SpotifyClient
 
 
 class Watcher:
@@ -16,28 +15,10 @@ class Watcher:
 
     # returns a formatted version of the json object from the spotify api
     def post_change(self):
-        return self.value[-1]['added_by']['id'] + ' just added a song: "' + self.value[-1]['track']['name'] + '" by "' + self.value[-1]['track']['artists'][0]['name'] + '"!'
-
-
-class SpotifyClient:
-    def __init__(self, client_id, client_secret, uri):
-        self.client_credentials_manager = SpotifyClientCredentials(client_id, client_secret)
-        self.uri = uri
-        self.username = uri.split(':')[2]
-        self.playlist_id = uri.split(':')[4]
-        self.sp = spotipy.Spotify(client_credentials_manager=self.client_credentials_manager)
-
-    # The standard spotify playlist reader has a max of 100 songs so we have to loop and append through the entire playlist
-    def get_playlist_tracks(self, username, playlist_id):
-        results = self.sp.user_playlist_tracks(username, playlist_id)
-        tracks = results['items']
-        while results['next']:
-            results = self.sp.next(results)
-            tracks.extend(results['items'])
-        return tracks
+        return SpotifyClient.SpotifyClient.get_last_added(self.value)
 
 # Create an instance of spotifyclient with client_id, client_secret and the spotify playlist uri
-spotifyclient = SpotifyClient('', '', '')
+spotifyclient = SpotifyClient.SpotifyClient('', '', '')
 
 # Create an instance of Watcher with the initial "old" value parameter
 watcher = Watcher(spotifyclient.get_playlist_tracks(spotifyclient.username, spotifyclient.playlist_id))
@@ -54,7 +35,7 @@ async def on_ready():
     print('------')
     # loops every 5 minutes
     while True:
-        await asyncio.sleep(300)
+        await asyncio.sleep(3)
         # runs the set_value method of watcher to see if the playlist has changed from its original state
         output = watcher.set_value(spotifyclient.get_playlist_tracks(spotifyclient.username, spotifyclient.playlist_id))
 
