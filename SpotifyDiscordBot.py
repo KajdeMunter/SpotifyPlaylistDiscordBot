@@ -35,7 +35,7 @@ async def on_ready():
     print('------')
     # loops every 5 minutes
     while True:
-        await asyncio.sleep(3)
+        await asyncio.sleep(300)
         # runs the set_value method of watcher to see if the playlist has changed from its original state
         output = watcher.set_value(spotifyclient.get_playlist_tracks(spotifyclient.username, spotifyclient.playlist_id))
 
