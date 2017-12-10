@@ -1,6 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-
+from datetime import datetime, timedelta
+import SpotifyDiscordBot
 
 class SpotifyClient:
     def __init__(self, client_id, client_secret, uri):
@@ -21,4 +22,9 @@ class SpotifyClient:
 
     @staticmethod
     def get_last_added(tracks):
-        return tracks[-1]['added_by']['id'] + ' just added a song: "' + tracks[-1]['track']['name'] + '" by "' + tracks[-1]['track']['artists'][0]['name'] + '"!'
+        # Spotify added_at returns YYYY-MM-DDTHH:MM:SSZ in UTC.
+        new_songlist = []
+        for i in range(len(tracks)):
+            if datetime.strptime(tracks[i]['added_at'], '%Y-%m-%dT%H:%M:%SZ') > datetime.utcnow() - timedelta(seconds=SpotifyDiscordBot.Checkevery):
+                new_songlist.append(tracks[i])
+        return new_songlist
