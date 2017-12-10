@@ -1,7 +1,9 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from datetime import datetime, timedelta
-import SpotifyDiscordBot
+
+# The amount of seconds the bot should call the API to see if there are songs added
+Checkevery = 300
 
 class SpotifyClient:
     def __init__(self, client_id, client_secret, uri):
@@ -25,6 +27,6 @@ class SpotifyClient:
         # Spotify added_at returns YYYY-MM-DDTHH:MM:SSZ in UTC.
         new_songlist = []
         for i in range(len(tracks)):
-            if datetime.strptime(tracks[i]['added_at'], '%Y-%m-%dT%H:%M:%SZ') > datetime.utcnow() - timedelta(seconds=SpotifyDiscordBot.Checkevery):
+            if datetime.strptime(tracks[i]['added_at'], '%Y-%m-%dT%H:%M:%SZ') > datetime.utcnow() - timedelta(seconds=Checkevery):
                 new_songlist.append(tracks[i])
         return new_songlist

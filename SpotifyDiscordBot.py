@@ -2,10 +2,6 @@ import discord
 import asyncio
 import SpotifyClient
 
-# The amount of seconds the bot should call the API to see if there are songs added
-Checkevery = 300
-
-
 class Watcher:
     """ Watches is the value of the variable changes and runs post_change method if it is """
     def __init__(self, value):
@@ -39,8 +35,15 @@ async def on_ready():
     print('------')
     print('Checking for newly added songs...')
 
+    # TODO check if there is songs added since the last saved song in LastSong.txt
+    #   IF SONGS ADDED:
+    #       SEND A MESSAGE TO DISCORD WITH WITH EVERY SONG THAT IS ADDED
+    #       SAVE THE LAST ADDED SONG DATETIME
+    #   IF NO SONGS ADDED:
+    #       print('No new songs added!')
+
     while True:
-        await asyncio.sleep(Checkevery)
+        await asyncio.sleep(SpotifyClient.Checkevery)
         # runs the set_value method of watcher to see if the playlist has changed from its original state
         playlistTracks = watcher.set_value(spotifyclient.get_playlist_tracks(spotifyclient.username, spotifyclient.playlist_id))
 
