@@ -27,6 +27,19 @@ class SpotifyClient:
         # Spotify added_at returns YYYY-MM-DDTHH:MM:SSZ in UTC.
         new_songlist = []
         for i in range(len(tracks)):
-            if datetime.strptime(tracks[i]['added_at'], '%Y-%m-%dT%H:%M:%SZ') > datetime.utcnow() - timedelta(seconds=Checkevery):
+            if datetime.strptime(tracks[i]['added_at'], '%Y-%m-%dT%H:%M:%SZ') > datetime.utcnow() - timedelta(seconds=Checkevery) or datetime.strptime(tracks[i]['added_at'], '%Y-%m-%dT%H:%M:%SZ') > SpotifyClient.get_last_song_sent_to_DC():
                 new_songlist.append(tracks[i])
         return new_songlist
+
+    @staticmethod
+    def get_last_song_sent_to_DC():
+        file_object = open("LastSongSentToDC.txt", "r")
+        return datetime.strptime(file_object.read(), '%Y-%m-%dT%H:%M:%SZ')
+
+    @staticmethod
+    def set_last_song_sent_to_DC(text):
+        file_object = open("LastSongSentToDC.txt", "w")
+        file_object.write(text)
+        file_object.truncate()
+        file_object.close()
+

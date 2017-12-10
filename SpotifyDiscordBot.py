@@ -2,6 +2,7 @@ import discord
 import asyncio
 import SpotifyClient
 
+
 class Watcher:
     """ Watches is the value of the variable changes and runs post_change method if it is """
     def __init__(self, value):
@@ -50,7 +51,11 @@ async def on_ready():
         # discord throws an exception if the message is empty (this happens when there is no new song and so the spotify client returns nothing)
         if playlistTracks is not None:
             for track in range(len(playlistTracks)):
+                # Format the output
                 output = playlistTracks[track]['added_by']['id'] + ' added a song: "' + playlistTracks[track]['track']['name'] + '" by "' + playlistTracks[track]['track']['artists'][0]['name'] + '"!'
+                # Save the output
+                SpotifyClient.SpotifyClient.set_last_song_sent_to_DC(playlistTracks[track]['added_at'])
+                # Print to discord channel
                 await discordclient.send_message(discord.Object(id=''), output)
 
 # finally, run the discord client
