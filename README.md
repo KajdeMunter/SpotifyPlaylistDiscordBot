@@ -1,4 +1,4 @@
-# SpotifyPlayistDiscordBot
+# SpotifyPlaylistDiscordBot
 A bot for discord that sends a message every time someone adds a song to a playlist.
 
 ## instructions: ##
