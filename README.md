@@ -18,8 +18,5 @@ docker run -d \
 ```
 
 ## Environment variables:
-CLIENT_ID
-CLIENT_SECRET
-PLAYLIST_URI
-CHANNEL_ID
-DISCORD_TOKEN
+Please go through the [Spotify documentation](https://developer.spotify.com/documentation/general/guides/app-settings/)
+to get your client id and secret. Use the [Discord docs](https://discordapp.com/developers/applications) to retrieve your token.
