@@ -34,6 +34,16 @@ class SpotifyClient:
     @staticmethod
     def get_last_song_sent_to_DC():
         file_object = open("LastSongSentToDC.txt", "r")
+
+        file_object.seek(0)
+        first_char = file_object.read(1)
+        if not first_char:
+            # File is empty
+            set_last_song_sent_to_DC(datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
+        else:
+            #first character wasn't empty, return to start of file.
+            file_object.seek(0)
+
         return datetime.strptime(file_object.read(), '%Y-%m-%dT%H:%M:%SZ')
 
     @staticmethod

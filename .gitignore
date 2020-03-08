@@ -1,0 +1,5 @@
+.idea
+*.retry
+.DS_Store
+.vscode
+*.log

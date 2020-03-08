@@ -1,7 +1,7 @@
 import discord
 import asyncio
 import SpotifyClient
-
+import os
 
 class Watcher:
     """ Watches is the value of the variable changes and runs post_change method if it is """
@@ -19,7 +19,7 @@ class Watcher:
         return SpotifyClient.SpotifyClient.get_last_added(self.value)
 
 # Create an instance of spotifyclient with client_id, client_secret and the spotify playlist uri
-spotifyclient = SpotifyClient.SpotifyClient('', '', '')
+spotifyclient = SpotifyClient.SpotifyClient(os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET'], os.environ['PLAYLIST_URI'])
 
 # Create an instance of Watcher with the initial "old" value parameter
 watcher = Watcher(spotifyclient.get_playlist_tracks(spotifyclient.username, spotifyclient.playlist_id))
@@ -49,7 +49,7 @@ async def on_ready():
                 # Save the output
                 SpotifyClient.SpotifyClient.set_last_song_sent_to_DC(playlistTracks[track]['added_at'])
                 # Print to discord channel
-                await discordclient.send_message(discord.Object(id=''), output)
+                await discordclient.send_message(discord.Object(id=os.environ['CHANNEL_ID']), output)
 
 # finally, run the discord client
-discordclient.run('')
+discordclient.run(os.environ['DISCORD_TOKEN'])
