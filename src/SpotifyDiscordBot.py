@@ -27,7 +27,6 @@ watcher = Watcher(spotifyclient.get_playlist_tracks(spotifyclient.username, spot
 # instanciate the discord client
 discordclient = discord.Client()
 
-
 @discordclient.event
 async def on_ready():
     print('Logged in as')
@@ -49,7 +48,7 @@ async def on_ready():
                 # Save the output
                 SpotifyClient.SpotifyClient.set_last_song_sent_to_DC(playlistTracks[track]['added_at'])
                 # Print to discord channel
-                await discordclient.send_message(discord.Object(id=os.environ['CHANNEL_ID']), output)
+                await discordclient.get_channel(int(os.environ['CHANNEL_ID'])).send(output)
 
 # finally, run the discord client
 discordclient.run(os.environ['DISCORD_TOKEN'])

@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  python:
+    build: .
+    volumes:
+      - ./src:/app
+    restart: unless-stopped
+    environment:
+      CLIENT_ID:
+      CLIENT_SECRET:
+      PLAYLIST_URI:
+      CHANNEL_ID:
+      DISCORD_TOKEN:

@@ -4,19 +4,10 @@ locally or build and publish to Docker Hub.
 
 ## instructions:
 * Install [Docker](https://docs.docker.com/install/)
-* `docker pull kajdemunter/spotifyplaylistdiscordbot:latest`
-* Run the image with correct environment variables:
-
-```
-docker run -d \
-    -e CLIENT_ID=<value> \
-    -e CLIENT_SECRET=<value> \
-    -e PLAYLIST_URI=<value> \
-    -e CHANNEL_ID=<value> \
-    -e DISCORD_TOKEN=<value> \
-    kajdemunter/spotifyplaylistdiscordbot:latest
-```
+* Install [Docker Compose](https://docs.docker.com/compose/)
+* Add correct environment variables to the docker-compose.yml
+* Run `docker-compose up -d`
 
 ## Environment variables:
-Please go through the [Spotify documentation](https://developer.spotify.com/documentation/general/guides/app-settings/)
+Please go through the [Spotify documentation](https://developer.spotify.com/documentation/general/guides/authorization/app-settings/)
 to get your client id and secret. Use the [Discord docs](https://discordapp.com/developers/applications) to retrieve your token.
