@@ -24,7 +24,7 @@ spotifyclient = SpotifyClient.SpotifyClient(os.environ['CLIENT_ID'], os.environ[
 # Create an instance of Watcher with the initial "old" value parameter
 watcher = Watcher(spotifyclient.get_playlist_tracks(spotifyclient.username, spotifyclient.playlist_id))
 
-# instanciate the discord client
+# instantiate the discord client
 discordclient = discord.Client()
 
 @discordclient.event
