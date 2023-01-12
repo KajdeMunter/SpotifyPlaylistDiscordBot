@@ -3,7 +3,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from datetime import datetime, timedelta
 
 # The amount of seconds the bot should call the API to see if there are songs added
-Checkevery = 180
+Checkevery = 300
 
 class SpotifyClient:
     def __init__(self, client_id, client_secret, uri):

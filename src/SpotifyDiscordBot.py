@@ -2,6 +2,7 @@ import discord
 import asyncio
 import SpotifyClient
 import os
+import pandas as pd
 
 class Watcher:
     """ Watches is the value of the variable changes and runs post_change method if it is """
@@ -49,6 +50,28 @@ async def on_ready():
                 SpotifyClient.SpotifyClient.set_last_song_sent_to_DC(playlistTracks[track]['added_at'])
                 # Print to discord channel
                 await discordclient.get_channel(int(os.environ['CHANNEL_ID'])).send(output)
+
+@discordclient.event
+async def on_message(message):
+    if message.author == discordclient.user:
+        return
+
+    if message.content.lower() == 'f':
+        await message.channel.send('Lekker voor je')
+
+    if message.content.lower() == 'stats':
+        tracks = spotifyclient.get_playlist_tracks(spotifyclient.username, spotifyclient.playlist_id)
+
+        output = {}
+        for track in tracks:
+            user = track['added_by']['id']
+            if user in output:
+                output[user] +=1
+            else:
+                output[user] =1
+
+        for k, v in dict(sorted(output.items(), reverse=True, key=lambda item: item[1])).items():
+            await message.channel.send(k + ': ' + str(v))
 
 # finally, run the discord client
 discordclient.run(os.environ['DISCORD_TOKEN'])
