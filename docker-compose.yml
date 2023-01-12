@@ -6,6 +6,8 @@ services:
     volumes:
       - ./src:/app
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       CLIENT_ID:
       CLIENT_SECRET:
